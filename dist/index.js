@@ -14,9 +14,8 @@ const core_1 = require("@rxdi/core");
 const type_service_1 = require("./services/type.service");
 const injection_tokens_1 = require("./injection.tokens");
 const graphql_1 = require("@rxdi/graphql");
-const graphql_2 = require("graphql");
 const neo4j_driver_1 = require("neo4j-driver");
-const neo4jgql = require("neo4j-graphql-js");
+const util_service_1 = require("./services/util.service");
 let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
     static forRoot(config = {}) {
         return {
@@ -65,29 +64,8 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                     : [
                         {
                             provide: graphql_1.SCHEMA_OVERRIDE,
-                            deps: [injection_tokens_1.NEO4J_MODULE_CONFIG, type_service_1.TypeService, graphql_1.GRAPHQL_PLUGIN_CONFIG],
-                            useFactory: (config, typeService, gqlConfig) => (schema) => {
-                                schema =
-                                    schema ||
-                                        new graphql_2.GraphQLSchema({
-                                            query: new graphql_2.GraphQLObjectType({
-                                                name: 'Root',
-                                                fields: { root: { type: graphql_2.GraphQLString } }
-                                            }),
-                                            directives: gqlConfig.directives || config.directives || [],
-                                            types: typeService.types || []
-                                        });
-                                const schemaErrors = graphql_2.validateSchema(schema);
-                                if (schemaErrors.length) {
-                                    throw new Error(JSON.stringify(schemaErrors));
-                                }
-                                const augmentedSchema = neo4jgql.makeAugmentedSchema({
-                                    typeDefs: graphql_2.printSchema(schema),
-                                    config: config.excludedTypes
-                                });
-                                augmentedSchema['_directives'] = schema['_directives'];
-                                return augmentedSchema;
-                            }
+                            deps: [util_service_1.UtilService],
+                            useFactory: (util) => (schema) => util.augmentSchema(schema || util.createRootSchema())
                         }
                     ])
             ]

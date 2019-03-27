@@ -10,15 +10,9 @@ import {
   SCHEMA_OVERRIDE,
   GRAPHQL_PLUGIN_CONFIG
 } from '@rxdi/graphql';
-import {
-  printSchema,
-  GraphQLSchema,
-  validateSchema,
-  GraphQLObjectType,
-  GraphQLString
-} from 'graphql';
+import { GraphQLSchema } from 'graphql';
 import { v1 as neo4j } from 'neo4j-driver';
-import * as neo4jgql from 'neo4j-graphql-js';
+import { UtilService } from './services/util.service';
 
 @Module({
   providers: [TypeService]
@@ -80,35 +74,9 @@ export class Neo4JModule {
           : [
               {
                 provide: SCHEMA_OVERRIDE,
-                deps: [NEO4J_MODULE_CONFIG, TypeService, GRAPHQL_PLUGIN_CONFIG],
-                useFactory: (
-                  config: NEO4J_MODULE_CONFIG,
-                  typeService: TypeService,
-                  gqlConfig: GRAPHQL_PLUGIN_CONFIG
-                ) => (schema: GraphQLSchema) => {
-                  schema =
-                    schema ||
-                    new GraphQLSchema({
-                      query: new GraphQLObjectType({
-                        name: 'Root',
-                        fields: { root: { type: GraphQLString } }
-                      }),
-                      directives: gqlConfig.directives || config.directives || [],
-                      types: typeService.types || []
-                    });
-                  const schemaErrors = validateSchema(schema);
-                  if (schemaErrors.length) {
-                    throw new Error(JSON.stringify(schemaErrors));
-                  }
-                  const augmentedSchema: GraphQLSchema = neo4jgql.makeAugmentedSchema(
-                    {
-                      typeDefs: printSchema(schema),
-                      config: config.excludedTypes
-                    }
-                  );
-                  augmentedSchema['_directives'] = schema['_directives'];
-                  return augmentedSchema;
-                }
+                deps: [UtilService],
+                useFactory: (util: UtilService) => (schema: GraphQLSchema) =>
+                  util.augmentSchema(schema || util.createRootSchema())
               }
             ])
       ]

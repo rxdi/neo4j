@@ -19,7 +19,7 @@ export interface NEO4J_MODULE_CONFIG {
   types?: GraphQLObjectType[];
   graphName?: string;
   password?: string;
-  directives?: GraphQLDirective[] | any[],
+  directives?: GraphQLDirective[] | any[];
   graphAddress?: string | 'bolt://localhost:7687';
   excludedTypes?: {
     mutation?: {
