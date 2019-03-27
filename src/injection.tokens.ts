@@ -52,4 +52,4 @@ const graphRequest: <T>(root, params, ctx, resolveInfo) => Promise<T> = (
 export { graphRequest };
 
 
-export * from 'neo4j-driver/types/v1';
+export { Driver } from 'neo4j-driver/types/v1';
