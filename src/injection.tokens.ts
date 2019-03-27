@@ -50,3 +50,6 @@ const graphRequest: <T>(root, params, ctx, resolveInfo) => Promise<T> = (
 ) => neo4jgraphql(root, params, ctx, resolveInfo);
 
 export { graphRequest };
+
+
+export * from 'neo4j-driver/types/v1';

@@ -28,3 +28,4 @@ export interface NEO4J_MODULE_CONFIG {
 export declare const NEO4J_DRIVER: InjectionToken<{}>;
 declare const graphRequest: <T>(root: any, params: any, ctx: any, resolveInfo: any) => Promise<T>;
 export { graphRequest };
+export * from 'neo4j-driver/types/v1';

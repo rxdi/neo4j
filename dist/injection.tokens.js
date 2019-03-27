@@ -1,4 +1,7 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@rxdi/core");
 const neo4j_graphql_js_1 = require("neo4j-graphql-js");
@@ -7,3 +10,4 @@ exports.NEO4J_MODULE_CONFIG = new core_1.InjectionToken('GAPI_NEO4J_MODULE_CONFI
 exports.NEO4J_DRIVER = new core_1.InjectionToken('GAPI_NEO4J_MODULE_CONFIG');
 const graphRequest = (root, params, ctx, resolveInfo) => neo4j_graphql_js_1.neo4jgraphql(root, params, ctx, resolveInfo);
 exports.graphRequest = graphRequest;
+__export(require("neo4j-driver/types/v1"));
