@@ -47,12 +47,10 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                             provide: injection_tokens_1.NEO4J_DRIVER,
                             deps: [graphql_1.GRAPHQL_PLUGIN_CONFIG],
                             useFactory: (gqlConfig) => {
-                                const driver = neo4j_driver_1.v1.driver(config.graphAddress || "bolt://localhost:7687", neo4j_driver_1.v1.auth.basic(config.graphName, config.password));
-                                gqlConfig.graphqlOptions.context =
-                                    gqlConfig.graphqlOptions.context || {};
-                                gqlConfig.graphqlOptions.context.driver = driver;
-                                core_1.Container.reset(graphql_1.GRAPHQL_PLUGIN_CONFIG);
-                                core_1.Container.set(graphql_1.GRAPHQL_PLUGIN_CONFIG, gqlConfig);
+                                const driver = neo4j_driver_1.v1.driver(config.graphAddress || 'bolt://localhost:7687', neo4j_driver_1.v1.auth.basic(config.graphName, config.password));
+                                Object.assign(gqlConfig.graphqlOptions, {
+                                    context: { driver }
+                                });
                                 return driver;
                             }
                         }
@@ -67,17 +65,28 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                     : [
                         {
                             provide: graphql_1.SCHEMA_OVERRIDE,
-                            deps: [injection_tokens_1.NEO4J_MODULE_CONFIG, type_service_1.TypeService],
-                            useFactory: (config, typeService) => (schema) => {
+                            deps: [injection_tokens_1.NEO4J_MODULE_CONFIG, type_service_1.TypeService, graphql_1.GRAPHQL_PLUGIN_CONFIG],
+                            useFactory: (config, typeService, gqlConfig) => (schema) => {
                                 schema =
                                     schema ||
                                         new graphql_2.GraphQLSchema({
-                                            types: typeService.types
+                                            query: new graphql_2.GraphQLObjectType({
+                                                name: 'Root',
+                                                fields: { root: { type: graphql_2.GraphQLString } }
+                                            }),
+                                            directives: gqlConfig.directives || config.directives || [],
+                                            types: typeService.types || []
                                         });
-                                return neo4jgql.makeAugmentedSchema({
+                                const schemaErrors = graphql_2.validateSchema(schema);
+                                if (schemaErrors.length) {
+                                    throw new Error(JSON.stringify(schemaErrors));
+                                }
+                                const augmentedSchema = neo4jgql.makeAugmentedSchema({
                                     typeDefs: graphql_2.printSchema(schema),
                                     config: config.excludedTypes
                                 });
+                                augmentedSchema['_directives'] = schema['_directives'];
+                                return augmentedSchema;
                             }
                         }
                     ])

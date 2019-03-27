@@ -1,5 +1,5 @@
-import { Injectable } from "@rxdi/core";
-import { GraphQLObjectType } from "graphql";
+import { Injectable } from '@rxdi/core';
+import { GraphQLObjectType } from 'graphql';
 
 @Injectable()
 export class TypeService {

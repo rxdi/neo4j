@@ -1,9 +1,10 @@
-import { InjectionToken } from "@rxdi/core";
-import { GraphQLObjectType, GraphQLSchema } from "graphql";
-import { ResponseToolkit } from "hapi";
+import { InjectionToken } from '@rxdi/core';
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
+import { ResponseToolkit } from 'hapi';
+import { GraphQLDirective } from 'graphql';
 
 export const Neo4JTypes = new InjectionToken<GraphQLObjectType[]>(
-  "GAPI_NEO4J_TYPES"
+  'GAPI_NEO4J_TYPES'
 );
 
 interface Neo4JTypesPrivate extends GraphQLObjectType {}
@@ -11,14 +12,15 @@ interface Neo4JTypesPrivate extends GraphQLObjectType {}
 export type Neo4JTypes = Neo4JTypesPrivate[];
 
 export const NEO4J_MODULE_CONFIG = new InjectionToken<NEO4J_MODULE_CONFIG>(
-  "GAPI_NEO4J_MODULE_CONFIG"
+  'GAPI_NEO4J_MODULE_CONFIG'
 );
 
 export interface NEO4J_MODULE_CONFIG {
-  types: GraphQLObjectType[];
+  types?: GraphQLObjectType[];
   graphName?: string;
   password?: string;
-  graphAddress?: string | "bolt://localhost:7687";
+  directives?: GraphQLDirective[] | any[],
+  graphAddress?: string | 'bolt://localhost:7687';
   excludedTypes?: {
     mutation?: {
       exclude: string[];
@@ -37,4 +39,4 @@ export interface NEO4J_MODULE_CONFIG {
   schemaOverride?(schema: GraphQLSchema): GraphQLSchema;
 }
 
-export const NEO4J_DRIVER = new InjectionToken("GAPI_NEO4J_MODULE_CONFIG");
+export const NEO4J_DRIVER = new InjectionToken('GAPI_NEO4J_MODULE_CONFIG');
