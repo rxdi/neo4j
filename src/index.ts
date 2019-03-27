@@ -97,3 +97,6 @@ export class Neo4JModule {
     };
   }
 }
+
+export * from './injection.tokens';
+export * from './services/type.service';

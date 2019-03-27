@@ -15,9 +15,6 @@
     "pretest": "npm run lint",
     "test": "jest"
   },
-  "bin": {
-    "rxdi": "./dist/bin/root.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/rxdi/neo4j"
