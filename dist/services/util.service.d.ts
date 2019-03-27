@@ -7,8 +7,10 @@ export declare class UtilService {
     private gqlConfig;
     private typeService;
     constructor(config: NEO4J_MODULE_CONFIG, gqlConfig: GRAPHQL_PLUGIN_CONFIG, typeService: TypeService);
+    private extendExcludedTypes;
     private extendSchemaDirectives;
     private validateSchema;
     augmentSchema(schema: GraphQLSchema): GraphQLSchema;
+    mergeSchemas(...schemas: GraphQLSchema[]): GraphQLSchema;
     createRootSchema(): GraphQLSchema;
 }
