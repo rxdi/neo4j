@@ -1,6 +1,7 @@
 import { InjectionToken } from '@rxdi/core';
-import { GraphQLObjectType, GraphQLSchema, GraphQLDirective } from 'graphql';
+import { GraphQLObjectType, GraphQLSchema } from 'graphql';
 import { ResponseToolkit } from 'hapi';
+import { neo4jgraphql } from 'neo4j-graphql-js';
 
 export const Neo4JTypes = new InjectionToken<GraphQLObjectType[]>(
   'GAPI_NEO4J_TYPES'
@@ -27,7 +28,6 @@ export interface NEO4J_MODULE_CONFIG {
   types?: GraphQLObjectType[];
   graphName?: string;
   password?: string;
-  directives?: GraphQLDirective[] | any[];
   graphAddress?: string | 'bolt://localhost:7687';
   excludedTypes?: ExcludedTypes;
   onRequest?(
@@ -41,3 +41,12 @@ export interface NEO4J_MODULE_CONFIG {
 }
 
 export const NEO4J_DRIVER = new InjectionToken('GAPI_NEO4J_MODULE_CONFIG');
+
+const graphRequest: <T>(root, params, ctx, resolveInfo) => Promise<T> = (
+  root,
+  params,
+  ctx,
+  resolveInfo
+) => neo4jgraphql(root, params, ctx, resolveInfo);
+
+export { graphRequest };

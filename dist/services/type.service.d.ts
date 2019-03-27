@@ -9,5 +9,7 @@ export declare class TypeService {
         [key: string]: any;
     }>;
     private addType;
-    addTypes(types?: GraphQLObjectType[]): void;
+    addTypes(types?: GraphQLObjectType[]): GraphQLObjectType<any, any, {
+        [key: string]: any;
+    }>[];
 }

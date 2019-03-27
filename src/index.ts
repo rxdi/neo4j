@@ -8,10 +8,8 @@ import {
 import {
   ON_REQUEST_HANDLER,
   SCHEMA_OVERRIDE,
-  GRAPHQL_PLUGIN_CONFIG
 } from '@rxdi/graphql';
 import { GraphQLSchema } from 'graphql';
-import { v1 as neo4j } from 'neo4j-driver';
 import { UtilService } from './services/util.service';
 
 @Module({
@@ -34,10 +32,7 @@ export class Neo4JModule {
           useFactory: (
             typeService: TypeService,
             config: NEO4J_MODULE_CONFIG
-          ) => {
-            typeService.addTypes(config.types);
-            return typeService.types;
-          }
+          ) => typeService.addTypes(config.types)
         },
         ...(config.onRequest
           ? [
@@ -50,17 +45,8 @@ export class Neo4JModule {
           : [
               {
                 provide: NEO4J_DRIVER,
-                deps: [GRAPHQL_PLUGIN_CONFIG],
-                useFactory: (gqlConfig: GRAPHQL_PLUGIN_CONFIG) => {
-                  const driver = neo4j.driver(
-                    config.graphAddress || 'bolt://localhost:7687',
-                    neo4j.auth.basic(config.graphName, config.password)
-                  );
-                  Object.assign(gqlConfig.graphqlOptions, {
-                    context: { driver }
-                  });
-                  return driver;
-                }
+                deps: [UtilService],
+                useFactory: (util: UtilService) => util.assignDriverToContext()
               }
             ]),
         ...(config.schemaOverride
@@ -87,4 +73,4 @@ export class Neo4JModule {
 }
 
 export * from './injection.tokens';
-export * from './services/type.service';
+export * from './services/index';

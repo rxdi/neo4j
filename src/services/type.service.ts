@@ -21,6 +21,7 @@ export class TypeService {
 
   addTypes(types: GraphQLObjectType[] = []) {
     types.forEach(type => this.addType(type));
+    return this._registeredTypes;
   }
 
 }

@@ -14,7 +14,6 @@ const core_1 = require("@rxdi/core");
 const type_service_1 = require("./services/type.service");
 const injection_tokens_1 = require("./injection.tokens");
 const graphql_1 = require("@rxdi/graphql");
-const neo4j_driver_1 = require("neo4j-driver");
 const util_service_1 = require("./services/util.service");
 let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
     static forRoot(config = {}) {
@@ -28,10 +27,7 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                 {
                     provide: injection_tokens_1.Neo4JTypes,
                     deps: [type_service_1.TypeService, injection_tokens_1.NEO4J_MODULE_CONFIG],
-                    useFactory: (typeService, config) => {
-                        typeService.addTypes(config.types);
-                        return typeService.types;
-                    }
+                    useFactory: (typeService, config) => typeService.addTypes(config.types)
                 },
                 ...(config.onRequest
                     ? [
@@ -44,14 +40,8 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                     : [
                         {
                             provide: injection_tokens_1.NEO4J_DRIVER,
-                            deps: [graphql_1.GRAPHQL_PLUGIN_CONFIG],
-                            useFactory: (gqlConfig) => {
-                                const driver = neo4j_driver_1.v1.driver(config.graphAddress || 'bolt://localhost:7687', neo4j_driver_1.v1.auth.basic(config.graphName, config.password));
-                                Object.assign(gqlConfig.graphqlOptions, {
-                                    context: { driver }
-                                });
-                                return driver;
-                            }
+                            deps: [util_service_1.UtilService],
+                            useFactory: (util) => util.assignDriverToContext()
                         }
                     ]),
                 ...(config.schemaOverride
@@ -79,4 +69,4 @@ Neo4JModule = Neo4JModule_1 = __decorate([
 ], Neo4JModule);
 exports.Neo4JModule = Neo4JModule;
 __export(require("./injection.tokens"));
-__export(require("./services/type.service"));
+__export(require("./services/index"));

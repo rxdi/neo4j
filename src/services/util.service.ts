@@ -3,14 +3,14 @@ import {
   GraphQLSchema,
   printSchema,
   validateSchema,
-  GraphQLObjectType,
-  GraphQLString
+  GraphQLObjectType
 } from 'graphql';
 import * as neo4jgql from 'neo4j-graphql-js';
-import { NEO4J_MODULE_CONFIG, ExcludedTypes } from '../injection.tokens';
+import { NEO4J_MODULE_CONFIG } from '../injection.tokens';
 import { TypeService } from './type.service';
 import { GRAPHQL_PLUGIN_CONFIG } from '@rxdi/graphql';
 import { mergeSchemas } from '@gapi/core';
+import { v1 as neo4j } from 'neo4j-driver';
 
 @Injectable()
 export class UtilService {
@@ -19,25 +19,6 @@ export class UtilService {
     @Inject(GRAPHQL_PLUGIN_CONFIG) private gqlConfig: GRAPHQL_PLUGIN_CONFIG,
     private typeService: TypeService
   ) {}
-
-  private extendExcludedTypes(
-    excludedTypes: ExcludedTypes = { query: {} as any, mutation: {} as any }
-  ): ExcludedTypes {
-    return {
-      query: {
-        exclude:
-          excludedTypes.query && excludedTypes.query.exclude
-            ? excludedTypes.query.exclude.concat('status')
-            : []
-      },
-      mutation: {
-        exclude:
-          excludedTypes.mutation && excludedTypes.mutation.exclude
-            ? excludedTypes.mutation.exclude.concat('status')
-            : []
-      }
-    };
-  }
 
   private extendSchemaDirectives(
     augmentedSchema: GraphQLSchema,
@@ -56,14 +37,13 @@ export class UtilService {
 
   augmentSchema(schema: GraphQLSchema) {
     this.validateSchema(schema);
-    const augmentedSchema = this.extendSchemaDirectives(
+    return this.extendSchemaDirectives(
       neo4jgql.makeAugmentedSchema({
         typeDefs: printSchema(schema),
-        config: this.extendExcludedTypes(this.config.excludedTypes)
+        config: this.config.excludedTypes
       }),
       schema
     );
-    return augmentedSchema;
   }
 
   mergeSchemas(...schemas: GraphQLSchema[]) {
@@ -76,19 +56,24 @@ export class UtilService {
   }
 
   createRootSchema() {
-    const directives =
-      this.gqlConfig.directives || this.config.directives || [];
     return new GraphQLSchema({
       query: new GraphQLObjectType({
-        name: 'status',
-        fields: {
-          status: {
-            type: GraphQLString
-          }
-        }
+        name: 'RootQuery',
+        fields: {}
       }),
-      directives,
+      directives: this.gqlConfig.directives || [],
       types: this.typeService.types || []
     });
+  }
+
+  assignDriverToContext() {
+    const driver = neo4j.driver(
+      this.config.graphAddress || 'bolt://localhost:7687',
+      neo4j.auth.basic(this.config.graphName, this.config.password)
+    );
+    Object.assign(this.gqlConfig.graphqlOptions, {
+      context: { driver }
+    });
+    return driver;
   }
 }

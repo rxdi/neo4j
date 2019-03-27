@@ -24,6 +24,7 @@ let TypeService = class TypeService {
     }
     addTypes(types = []) {
         types.forEach(type => this.addType(type));
+        return this._registeredTypes;
     }
 };
 TypeService = __decorate([
