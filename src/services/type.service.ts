@@ -1,8 +1,11 @@
 import { Injectable } from '@rxdi/core';
 import { GraphQLObjectType } from 'graphql';
+import { NEO4J_MODULE_CONFIG } from '../injection.tokens';
+import { exclude, mapToString } from '../helpers';
 
 @Injectable()
 export class TypeService {
+  private defaultExcludedTypes = ['Subscription'];
   private _registeredTypesMap: Map<string, GraphQLObjectType> = new Map();
   private _registeredTypes: GraphQLObjectType[] = [];
 
@@ -24,4 +27,20 @@ export class TypeService {
     return this._registeredTypes;
   }
 
+  extendExcludedTypes(c: NEO4J_MODULE_CONFIG) {
+    c.excludedTypes = c.excludedTypes || {};
+    c.excludedTypes.query = c.excludedTypes.query || { exclude: [] };
+    c.excludedTypes.mutation = c.excludedTypes.mutation || { exclude: [] };
+    c.excludedTypes = {
+      ...exclude(c, 'mutation', this.defaultExcludedTypes),
+      ...exclude(c, 'query', this.defaultExcludedTypes)
+    };
+    c.excludedTypes.mutation.exclude = mapToString(
+      c.excludedTypes.mutation.exclude
+    );
+    c.excludedTypes.mutation.exclude = mapToString(
+      c.excludedTypes.mutation.exclude
+    );
+    return c;
+  }
 }

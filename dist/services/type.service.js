@@ -7,8 +7,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@rxdi/core");
+const helpers_1 = require("../helpers");
 let TypeService = class TypeService {
     constructor() {
+        this.defaultExcludedTypes = ['Subscription'];
         this._registeredTypesMap = new Map();
         this._registeredTypes = [];
     }
@@ -25,6 +27,15 @@ let TypeService = class TypeService {
     addTypes(types = []) {
         types.forEach(type => this.addType(type));
         return this._registeredTypes;
+    }
+    extendExcludedTypes(c) {
+        c.excludedTypes = c.excludedTypes || {};
+        c.excludedTypes.query = c.excludedTypes.query || { exclude: [] };
+        c.excludedTypes.mutation = c.excludedTypes.mutation || { exclude: [] };
+        c.excludedTypes = Object.assign({}, helpers_1.exclude(c, 'mutation', this.defaultExcludedTypes), helpers_1.exclude(c, 'query', this.defaultExcludedTypes));
+        c.excludedTypes.mutation.exclude = helpers_1.mapToString(c.excludedTypes.mutation.exclude);
+        c.excludedTypes.mutation.exclude = helpers_1.mapToString(c.excludedTypes.mutation.exclude);
+        return c;
     }
 };
 TypeService = __decorate([

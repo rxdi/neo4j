@@ -5,12 +5,11 @@ import {
   NEO4J_MODULE_CONFIG,
   NEO4J_DRIVER
 } from './injection.tokens';
-import {
-  ON_REQUEST_HANDLER,
-  SCHEMA_OVERRIDE,
-} from '@rxdi/graphql';
+import { ON_REQUEST_HANDLER, SCHEMA_OVERRIDE } from '@rxdi/graphql';
 import { GraphQLSchema } from 'graphql';
 import { UtilService } from './services/util.service';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Module({
   providers: [TypeService]
@@ -27,12 +26,17 @@ export class Neo4JModule {
           useValue: config
         },
         {
+          provide: NEO4J_MODULE_CONFIG,
+          deps: [NEO4J_MODULE_CONFIG, TypeService],
+          lazy: true,
+          useFactory: (config: NEO4J_MODULE_CONFIG, typeService: TypeService) =>
+            of(config).pipe(map(c => typeService.extendExcludedTypes(c)))
+        },
+        {
           provide: Neo4JTypes,
           deps: [TypeService, NEO4J_MODULE_CONFIG],
-          useFactory: (
-            typeService: TypeService,
-            config: NEO4J_MODULE_CONFIG
-          ) => typeService.addTypes(config.types)
+          useFactory: (typeService: TypeService, config: NEO4J_MODULE_CONFIG) =>
+            typeService.addTypes(config.types)
         },
         ...(config.onRequest
           ? [
@@ -70,6 +74,8 @@ export class Neo4JModule {
       ]
     };
   }
+
+  public static forChild(types: string[] | Function[]) {}
 }
 
 export * from './injection.tokens';

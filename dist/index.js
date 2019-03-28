@@ -15,6 +15,8 @@ const type_service_1 = require("./services/type.service");
 const injection_tokens_1 = require("./injection.tokens");
 const graphql_1 = require("@rxdi/graphql");
 const util_service_1 = require("./services/util.service");
+const rxjs_1 = require("rxjs");
+const operators_1 = require("rxjs/operators");
 let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
     static forRoot(config = {}) {
         return {
@@ -23,6 +25,12 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                 {
                     provide: injection_tokens_1.NEO4J_MODULE_CONFIG,
                     useValue: config
+                },
+                {
+                    provide: injection_tokens_1.NEO4J_MODULE_CONFIG,
+                    deps: [injection_tokens_1.NEO4J_MODULE_CONFIG, type_service_1.TypeService],
+                    lazy: true,
+                    useFactory: (config, typeService) => rxjs_1.of(config).pipe(operators_1.map(c => typeService.extendExcludedTypes(c)))
                 },
                 {
                     provide: injection_tokens_1.Neo4JTypes,
@@ -61,6 +69,7 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
             ]
         };
     }
+    static forChild(types) { }
 };
 Neo4JModule = Neo4JModule_1 = __decorate([
     core_1.Module({

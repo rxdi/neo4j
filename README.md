@@ -36,7 +36,7 @@ import { UserType } from './user.type';
       graphAddress: 'bolt://localhost:7687',
       excludedTypes: {
         mutation: {
-          exclude: [UserType.name]
+          exclude: [UserType]
         }
       }
     })
@@ -128,7 +128,7 @@ import { ToUpperCaseDirective } from './core/directives/toUppercase.directive';
       password: '12345678',
       excludedTypes: {
         mutation: {
-          exclude: [UserContext.name]
+          exclude: [UserContext]
         }
       }
     }),

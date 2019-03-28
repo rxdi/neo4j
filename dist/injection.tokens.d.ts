@@ -8,12 +8,13 @@ interface Neo4JTypesPrivate extends GraphQLObjectType {
 }
 export declare type Neo4JTypes = Neo4JTypesPrivate[];
 export declare const NEO4J_MODULE_CONFIG: InjectionToken<NEO4J_MODULE_CONFIG>;
+export declare type IExcludeType = string | Function | GraphQLObjectType;
 export interface ExcludedTypes {
     mutation?: {
-        exclude: string[];
+        exclude: IExcludeType[];
     };
     query?: {
-        exclude: string[];
+        exclude: IExcludeType[];
     };
 }
 export interface NEO4J_MODULE_CONFIG {

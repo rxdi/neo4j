@@ -15,12 +15,14 @@ export const NEO4J_MODULE_CONFIG = new InjectionToken<NEO4J_MODULE_CONFIG>(
   'GAPI_NEO4J_MODULE_CONFIG'
 );
 
+export type IExcludeType = string | Function | GraphQLObjectType;
+
 export interface ExcludedTypes {
   mutation?: {
-    exclude: string[];
+    exclude: IExcludeType[];
   };
   query?: {
-    exclude: string[];
+    exclude: IExcludeType[];
   };
 }
 
@@ -50,6 +52,5 @@ const graphRequest: <T>(root, params, ctx, resolveInfo) => Promise<T> = (
 ) => neo4jgraphql(root, params, ctx, resolveInfo);
 
 export { graphRequest };
-
 
 export { Driver } from 'neo4j-driver/types/v1';
