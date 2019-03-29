@@ -72,7 +72,7 @@ export class UtilService {
       neo4j.auth.basic(this.config.graphName, this.config.password)
     );
     Object.assign(this.gqlConfig.graphqlOptions, {
-      context: { driver }
+      context: { driver, ...{ ...this.config.context } }
     });
     return driver;
   }

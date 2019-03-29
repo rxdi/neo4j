@@ -61,7 +61,7 @@ let UtilService = class UtilService {
     assignDriverToContext() {
         const driver = neo4j_driver_1.v1.driver(this.config.graphAddress || 'bolt://localhost:7687', neo4j_driver_1.v1.auth.basic(this.config.graphName, this.config.password));
         Object.assign(this.gqlConfig.graphqlOptions, {
-            context: { driver }
+            context: Object.assign({ driver }, Object.assign({}, this.config.context))
         });
         return driver;
     }

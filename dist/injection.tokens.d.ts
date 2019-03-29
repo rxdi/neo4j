@@ -23,6 +23,9 @@ export interface NEO4J_MODULE_CONFIG {
     password?: string;
     graphAddress?: string | 'bolt://localhost:7687';
     excludedTypes?: ExcludedTypes;
+    debug?: boolean;
+    auth?: boolean;
+    context?: any;
     onRequest?(next: any, context: any, request: Request, h: ResponseToolkit, err: Error): Promise<any>;
     schemaOverride?(schema: GraphQLSchema): GraphQLSchema;
 }

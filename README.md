@@ -126,6 +126,7 @@ import { ToUpperCaseDirective } from './core/directives/toUppercase.directive';
       graphName: 'neo4j',
       graphAddress: 'bolt://localhost:7687',
       password: '12345678',
+      context: {},
       excludedTypes: {
         mutation: {
           exclude: [UserContext]
