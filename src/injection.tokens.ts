@@ -28,7 +28,7 @@ export interface ExcludedTypes {
 
 export interface NEO4J_MODULE_CONFIG {
   types?: GraphQLObjectType[];
-  graphName?: string;
+  username?: string;
   password?: string;
   graphAddress?: string | 'bolt://localhost:7687';
   excludedTypes?: ExcludedTypes;

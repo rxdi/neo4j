@@ -123,9 +123,9 @@ import { ToUpperCaseDirective } from './core/directives/toUppercase.directive';
     }),
     Neo4JModule.forRoot({
       types: [UserContext, User, Message, Channel, AttachmentType],
-      graphName: 'neo4j',
-      graphAddress: 'bolt://localhost:7687',
+      username: 'neo4j',
       password: '12345678',
+      graphAddress: 'bolt://localhost:7687',
       context: {},
       excludedTypes: {
         mutation: {
