@@ -5,7 +5,7 @@ import { exclude, mapToString } from '../helpers';
 
 @Injectable()
 export class TypeService {
-  private defaultExcludedTypes = ['Subscription'];
+  private defaultExcludedTypes = ['Subscription', 'StatusQueryType'];
   private _registeredTypesMap: Map<string, GraphQLObjectType> = new Map();
   private _registeredTypes: GraphQLObjectType[] = [];
 

@@ -10,7 +10,7 @@ const core_1 = require("@rxdi/core");
 const helpers_1 = require("../helpers");
 let TypeService = class TypeService {
     constructor() {
-        this.defaultExcludedTypes = ['Subscription'];
+        this.defaultExcludedTypes = ['Subscription', 'StatusQueryType'];
         this._registeredTypesMap = new Map();
         this._registeredTypes = [];
     }
