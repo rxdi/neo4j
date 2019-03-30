@@ -68,7 +68,7 @@ export class UtilService {
 
   assignDriverToContext() {
     const driver = neo4j.driver(
-      this.config.graphAddress || 'bolt://localhost:7687',
+      this.config.address || 'bolt://localhost:7687',
       neo4j.auth.basic(this.config.username, this.config.password)
     );
     Object.assign(this.gqlConfig.graphqlOptions, {

@@ -21,7 +21,7 @@ export interface NEO4J_MODULE_CONFIG {
     types?: GraphQLObjectType[];
     username?: string;
     password?: string;
-    graphAddress?: string | 'bolt://localhost:7687';
+    address?: string | 'bolt://localhost:7687';
     excludedTypes?: ExcludedTypes;
     debug?: boolean;
     auth?: boolean;

@@ -59,7 +59,7 @@ let UtilService = class UtilService {
         });
     }
     assignDriverToContext() {
-        const driver = neo4j_driver_1.v1.driver(this.config.graphAddress || 'bolt://localhost:7687', neo4j_driver_1.v1.auth.basic(this.config.username, this.config.password));
+        const driver = neo4j_driver_1.v1.driver(this.config.address || 'bolt://localhost:7687', neo4j_driver_1.v1.auth.basic(this.config.username, this.config.password));
         Object.assign(this.gqlConfig.graphqlOptions, {
             context: Object.assign({ driver }, Object.assign({}, this.config.context))
         });

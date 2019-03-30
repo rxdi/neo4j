@@ -32,8 +32,8 @@ import { UserType } from './user.type';
     Neo4JModule.forRoot({
       types: [UserType],
       password: '12345678',
-      graphName: 'neo4j',
-      graphAddress: 'bolt://localhost:7687',
+      username: 'neo4j',
+      address: 'bolt://localhost:7687',
       excludedTypes: {
         mutation: {
           exclude: [UserType]
@@ -125,7 +125,7 @@ import { ToUpperCaseDirective } from './core/directives/toUppercase.directive';
       types: [UserContext, User, Message, Channel, AttachmentType],
       username: 'neo4j',
       password: '12345678',
-      graphAddress: 'bolt://localhost:7687',
+      address: 'bolt://localhost:7687',
       context: {},
       excludedTypes: {
         mutation: {
