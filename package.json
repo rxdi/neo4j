@@ -27,7 +27,7 @@
   "homepage": "https://github.com/rxdi/neo4j/blob/master/README.md",
   "dependencies": {
     "neo4j-driver": "^1.7.2",
-    "neo4j-graphql-js": "^2.4.0"
+    "neo4j-graphql-js": "^2.11.5"
   },
   "devDependencies": {
     "graphql": "^14.2.0",
@@ -43,7 +43,7 @@
     "ts-jest": "^23.0.1",
     "tslint": "^5.11.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.7.4"
   },
   "jest": {
     "testEnvironment": "node",
