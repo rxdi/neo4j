@@ -26,24 +26,24 @@
   },
   "homepage": "https://github.com/rxdi/neo4j/blob/master/README.md",
   "dependencies": {
-    "neo4j-driver": "^1.7.2",
+    "neo4j-driver": "^1.7.6",
     "neo4j-graphql-js": "^2.11.5"
   },
   "devDependencies": {
-    "graphql": "^14.2.0",
-    "@types/graphql": "^14.0.7",
-    "@gapi/core": "^1.4.88",
-    "@types/hapi": "18.0.1",
-    "@types/jest": "^23.3.2",
-    "@types/node": "^10.11.0",
+    "graphql": "^14.6.0",
+    "@types/graphql": "^14.5.0",
+    "@gapi/core": "^1.8.21",
+    "@types/hapi": "18.0.3",
+    "@types/jest": "^24.9.1",
+    "@types/node": "^13.5.0",
     "@types/systemjs": "^0.20.6",
-    "jest": "^23.4.2",
-    "jest-cli": "^23.4.2",
-    "parcel-bundler": "^1.9.7",
-    "ts-jest": "^23.0.1",
-    "tslint": "^5.11.0",
+    "jest": "^25.1.0",
+    "jest-cli": "^25.1.0",
+    "parcel-bundler": "^1.12.4",
+    "ts-jest": "^25.0.0",
+    "tslint": "^6.0.0",
     "tslint-language-service": "^0.9.9",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "jest": {
     "testEnvironment": "node",

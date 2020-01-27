@@ -17,6 +17,18 @@ export interface ExcludedTypes {
         exclude: IExcludeType[];
     };
 }
+export interface RelationshipType {
+    searchIndex: string;
+    replaceWith: string;
+}
+export interface Relationship {
+    direction: 'IN' | 'OUT';
+    name: string;
+    cyper: string;
+}
+export interface RelationshipMap {
+    [key: string]: RelationshipType;
+}
 export interface NEO4J_MODULE_CONFIG {
     types?: GraphQLObjectType[];
     username?: string;
@@ -26,7 +38,7 @@ export interface NEO4J_MODULE_CONFIG {
     debug?: boolean;
     auth?: boolean;
     context?: any;
-    onRequest?(next: any, context: any, request: Request, h: ResponseToolkit, err: Error): Promise<any>;
+    onRequest?(next: any, request: Request, h: ResponseToolkit, err: Error): Promise<any>;
     schemaOverride?(schema: GraphQLSchema): GraphQLSchema;
 }
 export declare const NEO4J_DRIVER: InjectionToken<unknown>;

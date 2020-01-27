@@ -63,7 +63,7 @@ let Neo4JModule = Neo4JModule_1 = class Neo4JModule {
                         {
                             provide: graphql_1.SCHEMA_OVERRIDE,
                             deps: [util_service_1.UtilService],
-                            useFactory: (util) => (schema) => util.augmentSchema(util.mergeSchemas(schema, util.createRootSchema()))
+                            useFactory: (util) => (schema) => util.augmentSchema(schema)
                         }
                     ])
             ]

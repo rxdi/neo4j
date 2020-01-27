@@ -5,3 +5,4 @@ export declare const exclude: (c: NEO4J_MODULE_CONFIG, type: "query" | "mutation
         exclude: IExcludeType[];
     };
 };
+export * from './generate-type-defs';
