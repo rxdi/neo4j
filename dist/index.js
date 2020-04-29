@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 var Neo4JModule_1;
+Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@rxdi/core");
 const type_service_1 = require("./services/type.service");
 const injection_tokens_1 = require("./injection.tokens");

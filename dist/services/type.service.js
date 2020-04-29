@@ -32,7 +32,7 @@ let TypeService = class TypeService {
         c.excludedTypes = c.excludedTypes || {};
         c.excludedTypes.query = c.excludedTypes.query || { exclude: [] };
         c.excludedTypes.mutation = c.excludedTypes.mutation || { exclude: [] };
-        c.excludedTypes = Object.assign({}, helpers_1.exclude(c, 'mutation', this.defaultExcludedTypes), helpers_1.exclude(c, 'query', this.defaultExcludedTypes));
+        c.excludedTypes = Object.assign(Object.assign({}, helpers_1.exclude(c, 'mutation', this.defaultExcludedTypes)), helpers_1.exclude(c, 'query', this.defaultExcludedTypes));
         c.excludedTypes.mutation.exclude = helpers_1.mapToString(c.excludedTypes.mutation.exclude);
         c.excludedTypes.mutation.exclude = helpers_1.mapToString(c.excludedTypes.mutation.exclude);
         return c;

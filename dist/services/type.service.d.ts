@@ -4,7 +4,7 @@ export declare class TypeService {
     private defaultExcludedTypes;
     private _registeredTypesMap;
     private _registeredTypes;
-    readonly types: GraphQLObjectType<any, any, {
+    get types(): GraphQLObjectType<any, any, {
         [key: string]: any;
     }>[];
     getType(type: GraphQLObjectType): GraphQLObjectType<any, any, {

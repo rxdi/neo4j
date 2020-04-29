@@ -29,7 +29,7 @@ export interface NEO4J_MODULE_CONFIG {
     onRequest?(next: any, context: any, request: Request, h: ResponseToolkit, err: Error): Promise<any>;
     schemaOverride?(schema: GraphQLSchema): GraphQLSchema;
 }
-export declare const NEO4J_DRIVER: InjectionToken<{}>;
+export declare const NEO4J_DRIVER: InjectionToken<unknown>;
 declare const graphRequest: <T>(root: any, params: any, ctx: any, resolveInfo: any) => Promise<T>;
 export { graphRequest };
 export { Driver } from 'neo4j-driver/types/v1';
